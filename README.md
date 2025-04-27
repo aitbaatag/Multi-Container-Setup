@@ -1,2 +1,19 @@
-# Multi-Container-Setup
-A Docker-based project that sets up multiple services including NGINX, WordPress, and MariaDB. It uses Docker Compose to manage containers, networks, and volumes easily. Perfect for learning how to deploy and connect services inside isolated containers 
+# Inception Project
+
+## Learning Objectives
+
+1. **Understanding Docker and Compose**  
+
+2. **Discover the Different Points of the Subject of Inception**  
+
+3. **Set Up the NGINX Container**  
+
+4. **Set Up the MariaDB Container**  
+
+5. **Set Up the WordPress Container**  
+
+6. **Connect the Containers with Docker Compose**  
+
+7. **Understanding the Volumes of Docker Compose**  
+
+8. **Finalize the Project**  
