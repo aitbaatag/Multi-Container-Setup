@@ -12,8 +12,10 @@
 6. **🔗 Connect the containers with Docker Compose**
 7. **📦 Understanding the volumes of Docker Compose**
 8. **✅ Finalize the project**
+<br>
+<br>
 
-#### 🐳 1. Understanding Docker
+# 🐳 1. Understanding Docker
 
 📌 The advantage of Docker is clear: it solves one of the biggest problems developers face:
 > **👉 Creating a great program on your computer and then realizing it only works on your own machine. To use it elsewhere, you need to install the required dependencies 🤯**
@@ -46,7 +48,7 @@ With Docker, developers can package their applications and all required dependen
 run, and scale software on any machine, regardless of its operating system or configuration
 ```
 
-### Why Do Developers Use Docker? 🤔
+## Why Do Developers Use Docker? 🤔
 
 **The great advantage of Docker is the ability to model each container as an image that can be stored locally.**
 
@@ -54,7 +56,7 @@ run, and scale software on any machine, regardless of its operating system or co
 📌 By "kernel," I mean the entire system that allows the virtual machine to function, including the OS, graphical side, network, etc.  
 🔎 In other words, a container only contains the application and its dependencies.
 
-### Docker Hub
+## Docker Hub:
 
 Docker provides a sort of App Store, containing images (containers) from thousands of people, making its usage even easier. 👍  
 Imagine that you want to host a website. For example, you would need to install NGINX. 
@@ -91,7 +93,7 @@ ENTRYPOINT  ["sh", "setup_nginx.sh"]
 When you talk about a Dockerfile, you're introducing a new programming language, but don’t run away — it’s just about learning these few keywords
 ```
 
-### Some Dockerfile keywords :
+## Some Dockerfile keywords :
 <details>
   <summary><strong  style="font-size: 20px; font-weight: bolder;">FROM</strong></summary>
 
