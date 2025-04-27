@@ -41,28 +41,26 @@ That's probably what happened to Solomon Hykes, a Franco-American who eventually
 </details>
 
 ```
-💪 So Docker came to solve the problem of managing dependencies and ensuring that software runs consistently across different environments. With Docker, developers can package their applications and all required dependencies into isolated containers, making it easier to deploy, run, and scale software on any machine, regardless of its operating system or configuration
+💪 So Docker came to solve the problem of managing dependencies and ensuring that software runs consistently across different environments.  
+With Docker, developers can package their applications and all required dependencies into isolated containers, making it easier to deploy,  
+run, and scale software on any machine, regardless of its operating system or configuration
 ```
 
 ### Why Do Developers Use Docker? 🤔
 
 **The great advantage of Docker is the ability to model each container as an image that can be stored locally.**
 
-🔎 A container is a virtual machine without a kernel.
-
-📌 By "kernel," I mean the entire system that allows the virtual machine to function, including the OS, graphical side, network, etc.
-
+🔎 A container is a virtual machine without a kernel.  
+📌 By "kernel," I mean the entire system that allows the virtual machine to function, including the OS, graphical side, network, etc.  
 🔎 In other words, a container only contains the application and its dependencies.
 
 ### Docker Hub
 
-Docker provides a sort of App Store, containing images (containers) from thousands of people, making its usage even easier. 👍
-
+Docker provides a sort of App Store, containing images (containers) from thousands of people, making its usage even easier. 👍  
 Imagine that you want to host a website. For example, you would need to install NGINX. 
 Install it on your computer? Haven’t you learned the lesson? What if you don’t have the right OS or the correct dependencies?
 
-🤔 We would need a Docker container that installs NGINX for us.
-
+🤔 We would need a Docker container that installs NGINX for us.  
 😏 Well, as luck would have it, the NGINX image has been published by **NGINX on Docker Hub!** 🥳
 
 Let’s take a look at an example of what an NGINX image might look like:
@@ -89,19 +87,17 @@ EXPOSE  443
 ENTRYPOINT  ["sh", "setup_nginx.sh"]
 ```
 ```
-👉 This file is a Dockerfile. It’s the main file for your Docker images. When you talk about a Dockerfile, you're introducing a new programming language, but don’t run away — it’s just about learning these few keywords
+👉 This file is a Dockerfile. It’s the main file for your Docker images.
+When you talk about a Dockerfile, you're introducing a new programming language, but don’t run away — it’s just about learning these few keywords
 ```
 
 ### Some Dockerfile keywords :
 <details>
   <summary><strong  style="font-size: 20px; font-weight: bolder;">FROM</strong></summary>
 
-Allows you to tell Docker which OS your virtual machine should run on.
-
-This is the first keyword in your Dockerfile and is mandatory .
-
-The most common are debian:buster for Debian or alpine:x:xx for Linux 
-
+Allows you to tell Docker which OS your virtual machine should run on.  
+This is the first keyword in your Dockerfile and is mandatory .  
+The most common are debian:buster for Debian or alpine:x:xx for Linux  
 </details>
 
 <details>
@@ -129,15 +125,13 @@ You simply indicate where your file to copy is located from the directory where 
 <details>
   <summary><strong  style="font-size: 20px; font-weight: bolder;">EXPOSED</strong></summary>
  Here it's a question of network 📡
-
-The instructionEXPOSEDinforms Docker that the container is listening on the specified network ports at runtime.EXPOSEDdoes not make container ports accessible to the host.
-
+  
+The instructionEXPOSEDinforms Docker that the container is listening on the specified network ports at runtime.EXPOSEDdoes not make container ports accessible to the host.  
 Wait! What? The container is listening on the network port and is not accessible to the host?
 
-What does this mean? 😣
 
-The instructionEXPOSEDexposes the specified port and makes it available only for inter-container communication. Let's understand this with an example.
-
+What does this mean? 😣  
+The instructionEXPOSEDexposes the specified port and makes it available only for inter-container communication. Let's understand this with an example.  
 Let's say we have two containers, a WordPress application and a MariaDB server. Our WordPress application needs to communicate with the MariaDB server for several reasons.
 
 
