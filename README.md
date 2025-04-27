@@ -128,19 +128,19 @@ You simply indicate where your file to copy is located from the directory where 
   <summary><strong  style="font-size: 20px; font-weight: bolder;">EXPOSED</strong></summary>
  Here it's a question of network 📡
   
-The instructionEXPOSEDinforms Docker that the container is listening on the specified network ports at runtime.EXPOSEDdoes not make container ports accessible to the host.  
+The instruction **EXPOSED** informs Docker that the container is listening on the specified network ports at runtime.EXPOSEDdoes not make container ports accessible to the host.  
 Wait! What? The container is listening on the network port and is not accessible to the host?
 
 
 What does this mean? 😣  
-The instructionEXPOSEDexposes the specified port and makes it available only for inter-container communication. Let's understand this with an example.  
+The instruction **EXPOSED** exposes the specified port and makes it available only for inter-container communication. Let's understand this with an example.  
 Let's say we have two containers, a WordPress application and a MariaDB server. Our WordPress application needs to communicate with the MariaDB server for several reasons.
 
 
 
-In order for the WordPress application to talk to the MariaDB server, the WordPress container must expose the port. Take a look at the Dockerfile of the official WordPress image and you will see a line sayingEXPOSED3306. This is what helps the two containers communicate with each other.
+In order for the WordPress application to talk to the MariaDB server, the WordPress container must expose the port. Take a look at the Dockerfile of the official WordPress image and you will see a line saying **EXPOSED** 3306. This is what helps the two containers communicate with each other.
 
-So when your WordPress container tries to connect to the port3306of the MariaDB container, this is the instructionEXPOSEDwhich makes this possible.
+So when your WordPress container tries to connect to the port 3306 of the MariaDB container, this is the instruction **EXPOSED** which makes this possible.
 
 Note: For the WordPress server to communicate with the MariaDB container, it is important that both containers are running in the same docker network
 </details>
