@@ -48,7 +48,7 @@ With Docker, developers can package their applications and all required dependen
 run, and scale software on any machine, regardless of its operating system or configuration
 ```
 
-## Why Do Developers Use Docker? 🤔
+## 📦 Why Do Developers Use Docker? 🤔
 
 **The great advantage of Docker is the ability to model each container as an image that can be stored locally.**
 
@@ -56,7 +56,7 @@ run, and scale software on any machine, regardless of its operating system or co
 📌 By "kernel," I mean the entire system that allows the virtual machine to function, including the OS, graphical side, network, etc.  
 🔎 In other words, a container only contains the application and its dependencies.
 
-## Docker Hub:
+## 🌐 Docker Hub:
 
 Docker provides a sort of App Store, containing images (containers) from thousands of people, making its usage even easier. 👍  
 Imagine that you want to host a website. For example, you would need to install NGINX. 
@@ -159,5 +159,10 @@ Simply state your command, argument by argument, in the following format:
 ```
 </details>
 
+## 🛠️ Docker-Compose:
+Now that you understand the real utility of Docker, it’s time to understand a Docker feature called **Compose**
+#### 📄 According to the Docker documentation 
+> Docker Compose is a tool developed to help define and share multi-container applications.  
+With Compose, we can create a YAML file to define the services and, with a single command, bring everything up or tear everything down
 
- 
+💡 **Compose** therefore allows you to manage applications that use multiple containers and enable them to communicate with each other
