@@ -1,6 +1,6 @@
-FROM debian:bookworm-slim
+FROM debian:bullseye-slim
 
-RUN apt-get update && \
+RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y nginx openssl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
