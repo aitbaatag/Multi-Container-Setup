@@ -1,0 +1,29 @@
+
+version: '3.8'
+
+services:
+  wordpress:
+    image: wordpress-php-imag
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - wordpress-data:/var/www/html/wordpress
+    networks:
+      - inception
+
+  nginx:
+    image: nginx-imag
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - inception
+
+volumes:
+  wordpress-data:
+
+networks:
+  inception:
