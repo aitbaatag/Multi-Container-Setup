@@ -1,22 +1,44 @@
 
-version: '3.8'
 
 services:
-  wordpress:
-    image: wordpress-php-imag
-    container_name: wordpress
+  # nginx container
+  nginx:
+    image: nginx-imag
+    container_name: nginx
+    build: ./requirements/nginx/.
+    restart: always
     ports:
-      - "9000:9000"
+      - "443:443"
     volumes:
       - wordpress-data:/var/www/html/wordpress
     networks:
       - inception
-
-  nginx:
-    image: nginx-imag
-    container_name: nginx
+  # mariadb container
+  mariadb:
+    image: mariadb-imag
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    restart: always
     ports:
-      - "443:443"
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - inception
+  # Wordpress container
+  wordpress:
+    depends_on:
+      - mariadb
+    image: wordpress-php-imag
+    container_name: wordpress
+    build: ./requirements/wordpress/.
+    restart: always
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
     volumes:
       - wordpress-data:/var/www/html/wordpress
     networks:
@@ -24,6 +46,7 @@ services:
 
 volumes:
   wordpress-data:
+  mariadb-data:
 
 networks:
   inception:
