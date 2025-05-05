@@ -7,6 +7,7 @@ RUN apt-get update && apt-get upgrade -y && \
     php7.4 \
     php-fpm \
     php-mysql \
+    iproute2 \
     mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 

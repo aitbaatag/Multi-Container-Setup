@@ -1,7 +1,3 @@
-[server]
-
-init_file = /etc/mysql/init.sql
-
 [mysqld]
 
 datadir = /var/lib/mysql

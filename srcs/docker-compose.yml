@@ -1,7 +1,5 @@
 
-
 services:
-  # nginx container
   nginx:
     image: nginx-imag
     container_name: nginx
@@ -10,10 +8,10 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress-data:/var/www/html/wordpress
+      - wordpress-data:/var/www/html
     networks:
       - inception
-  # mariadb container
+
   mariadb:
     image: mariadb-imag
     container_name: mariadb
@@ -27,7 +25,7 @@ services:
       - mariadb-data:/var/lib/mysql
     networks:
       - inception
-  # Wordpress container
+
   wordpress:
     depends_on:
       - mariadb
@@ -40,7 +38,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress-data:/var/www/html/wordpress
+      - wordpress-data:/var/www/html
     networks:
       - inception
 
@@ -50,3 +48,4 @@ volumes:
 
 networks:
   inception:
+    name: inception
