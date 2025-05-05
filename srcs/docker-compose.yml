@@ -5,10 +5,12 @@ services:
     container_name: nginx
     build: ./requirements/nginx/.
     restart: always
+    depends_on:
+      - wordpress
     ports:
       - "443:443"
     volumes:
-      - wordpress-data:/var/www/html
+      - wordpress-data:/var/www/html/wordpress
     networks:
       - inception
 
@@ -38,7 +40,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress-data:/var/www/html
+      - wordpress-data:/var/www/html/wordpress
     networks:
       - inception
 
