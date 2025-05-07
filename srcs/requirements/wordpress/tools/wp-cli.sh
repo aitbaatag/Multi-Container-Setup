@@ -13,7 +13,7 @@ chmod -R 755 /var/www/html
 cd /var/www/html
 
 # Check if WordPress is already installed
-if [ ! -f "/var/www/html/wp-config.php"]; then
+if [ ! -f "/var/www/html/wp-config.php" ]; then
   echo "WordPress not found, downloading..."
   # Download WordPress core files
   wp core download --allow-root
