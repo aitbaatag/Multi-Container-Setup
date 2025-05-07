@@ -8,7 +8,6 @@ fi
 
 # Set proper ownership
 chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
 # Change to the WordPress directory
 cd /var/www/html
 
