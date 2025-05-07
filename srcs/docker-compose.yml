@@ -10,7 +10,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress-data:/var/www/html/wordpress
+      - wordpress-data:/var/www/html
     networks:
       - inception
 
@@ -40,7 +40,7 @@ services:
     env_file:
       - .env
     volumes:
-      - wordpress-data:/var/www/html/wordpress
+      - wordpress-data:/var/www/html
     networks:
       - inception
 

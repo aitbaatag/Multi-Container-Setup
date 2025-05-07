@@ -12,7 +12,7 @@ cd /var/www/html
 # This downloads the WordPress core files, the option ( --allow-root ) will run the command as root
 # and ( --version:5.8.1 ) specifies the version of WordPress that will get downloaded
 # and ( --local=en_US ) sets the language of the installation to US English
-wp core download --allow-root --version=5.8.1 --locale=en_US
+wp core download --allow-root --version="${WP_VERSION}" --locale="${WP_LOCALE}"
 
 # This will generate the WordPress configuration file, and the options ( --dbname, --dbuser, --dbpass, --dbhost )
 # are just placeholders that will get replaced once the script runs
@@ -33,4 +33,4 @@ wp core install \
   --admin_email="${WORDPRESS_ADMIN_EMAIL}"
 
 # This is the command that will keep WordPress up and running
-exec php-fpm7.4 -F -R
+exec php-fpm8.2 -F -R
