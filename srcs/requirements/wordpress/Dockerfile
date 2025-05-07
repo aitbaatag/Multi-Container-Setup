@@ -10,22 +10,11 @@ RUN apt-get update && apt-get upgrade -y && \
     mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 
-# RUN mkdir -p /var/www/html
-#
-# # Install WordPress
-# RUN wget https://wordpress.org/latest.tar.gz && \
-#     tar -xzf latest.tar.gz && \
-#     rm latest.tar.gz && \
-#     mv wordpress /var/www/html
 
 # Install WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
-
-#  gave www-data access to the wordpress folder
-# not use root user because it is not secure
-# RUN chown -R www-data:www-data /var/www/html
 
 # Stores PHP-FPM’s PID and (optionally) socket
 RUN mkdir -p /run/php

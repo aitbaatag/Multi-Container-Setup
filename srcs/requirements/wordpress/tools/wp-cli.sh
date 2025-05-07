@@ -8,15 +8,23 @@ fi
 
 # Set proper ownership
 chown -R www-data:www-data /var/www/html
-
+chmod -R 755 /var/www/html
 # Change to the WordPress directory
 cd /var/www/html
 
 # Check if WordPress is already installed
-if [ ! -f "wp-config.php" ]; then
+if [ ! -f "/var/www/html/wp-config.php"]; then
   echo "WordPress not found, downloading..."
   # Download WordPress core files
-  wp core download --allow-root --version="${WP_VERSION}" --locale="${WP_LOCALE}"
+  wp core download --allow-root
+
+  # Wait for MariaDB to be fully ready
+
+  until mysql -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" -e "SELECT 1;" >/dev/null 2>&1; do
+    echo "⏳ Waiting for MariaDB to be ready..."
+    sleep 2
+  done
+  echo "✅ MariaDB is ready!"
 
   # Create the WordPress configuration file
   wp config create \
@@ -40,9 +48,6 @@ if [ ! -f "wp-config.php" ]; then
 else
   echo "WordPress already installed, skipping setup"
 fi
-
-# Ensure proper permissions
-chown -R www-data:www-data /var/www/html
 
 # Start PHP-FPM
 echo "Starting PHP-FPM..."
