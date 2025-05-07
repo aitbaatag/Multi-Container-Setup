@@ -10,3 +10,7 @@ docker logs wordpress | tail -n 50
 echo ""
 echo "=== Nginx Logs ==="
 docker logs nginx | tail -n 50
+
+echo ""
+echo "=== redis Logs ==="
+docker logs redis | tail -n 50

@@ -43,11 +43,28 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
     --admin_email="${WORDPRESS_ADMIN_EMAIL}"
 
-  echo "WordPress installation completed!"
+  echo "✅ WordPress installation completed!"
 else
   echo "WordPress already installed, skipping setup"
 fi
 
+# Install and configure required plugin if not already installed
+if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
+  echo "Installing Redis Cache plugin..."
+  wp plugin install redis-cache --activate --allow-root
+
+  # add Redis configuration to wp-config.php
+  wp config set WP_REDIS_HOST "${WP_REDIS_HOST}" --allow-root
+  wp config set WP_REDIS_PORT "${WP_REDIS_PORT}" --allow-root
+  wp config set WP_CACHE "${WP_CACHE}" --allow-root
+  wp redis enable --allow-root
+
+  echo "✅ Redis Cache plugin installed and configured!"
+else
+  echo "Redis Cache plugin already installed, skipping installation"
+fi
+
 # Start PHP-FPM
 echo "Starting PHP-FPM..."
+
 exec php-fpm8.2 -F -R

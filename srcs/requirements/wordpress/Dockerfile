@@ -7,6 +7,8 @@ RUN apt-get update && apt-get upgrade -y && \
     php \
     php-fpm \
     php-mysql \
+    iputils-ping \
+    redis-tools \
     mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 

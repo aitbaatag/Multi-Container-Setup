@@ -44,6 +44,17 @@ services:
     networks:
       - inception
 
+# Bonus Part
+  redis:
+    build: ./requirements/bonus/redis/.
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - inception
+    env_file:
+      - .env
 volumes:
   wordpress-data:
   mariadb-data:
