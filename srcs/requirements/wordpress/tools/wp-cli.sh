@@ -1,36 +1,49 @@
 #!/bin/sh
+set -e
 
-# We will first check if the "/var/www/html" folder exist or not,
-# if not we create it
+# Create the WordPress directory if it doesn't exist
 if [ ! -d "/var/www/html" ]; then
   mkdir -p /var/www/html
 fi
 
-# We will cd into the folder
+# Set proper ownership
+chown -R www-data:www-data /var/www/html
+
+# Change to the WordPress directory
 cd /var/www/html
 
-# This downloads the WordPress core files, the option ( --allow-root ) will run the command as root
-# and ( --version:5.8.1 ) specifies the version of WordPress that will get downloaded
-# and ( --local=en_US ) sets the language of the installation to US English
-wp core download --allow-root --version="${WP_VERSION}" --locale="${WP_LOCALE}"
+# Check if WordPress is already installed
+if [ ! -f "wp-config.php" ]; then
+  echo "WordPress not found, downloading..."
+  # Download WordPress core files
+  wp core download --allow-root --version="${WP_VERSION}" --locale="${WP_LOCALE}"
 
-# This will generate the WordPress configuration file, and the options ( --dbname, --dbuser, --dbpass, --dbhost )
-# are just placeholders that will get replaced once the script runs
-wp config create \
-  --allow-root \
-  --dbname="${WORDPRESS_DB_NAME}" \
-  --dbuser="${WORDPRESS_DB_USER}" \
-  --dbpass="${WORDPRESS_DB_PASSWORD}" \
-  --dbhost="${WORDPRESS_DB_HOST}"
+  # Create the WordPress configuration file
+  wp config create \
+    --allow-root \
+    --dbname="${WORDPRESS_DB_NAME}" \
+    --dbuser="${WORDPRESS_DB_USER}" \
+    --dbpass="${WORDPRESS_DB_PASSWORD}" \
+    --dbhost="${WORDPRESS_DB_HOST}"
 
-# This will then install WordPress, and again, all the options are just placeholders that will get replaced
-wp core install \
-  --allow-root \
-  --url="${WORDPRESS_SITE_URL}" \
-  --title="${WORDPRESS_SITE_TITLE}" \
-  --admin_user="${WORDPRESS_ADMIN_USER}" \
-  --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
-  --admin_email="${WORDPRESS_ADMIN_EMAIL}"
+  # Install WordPress
+  echo "Installing WordPress..."
+  wp core install \
+    --allow-root \
+    --url="${WORDPRESS_SITE_URL}" \
+    --title="${WORDPRESS_SITE_TITLE}" \
+    --admin_user="${WORDPRESS_ADMIN_USER}" \
+    --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
+    --admin_email="${WORDPRESS_ADMIN_EMAIL}"
 
-# This is the command that will keep WordPress up and running
+  echo "WordPress installation completed!"
+else
+  echo "WordPress already installed, skipping setup"
+fi
+
+# Ensure proper permissions
+chown -R www-data:www-data /var/www/html
+
+# Start PHP-FPM
+echo "Starting PHP-FPM..."
 exec php-fpm8.2 -F -R
