@@ -9,6 +9,7 @@ RUN apt-get update && apt-get upgrade -y && \
     php-mysql \
     iputils-ping \
     redis-tools \
+    vsftpd \
     mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 
