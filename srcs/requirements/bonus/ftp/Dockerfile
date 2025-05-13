@@ -1,8 +1,10 @@
-FROM debain:bookworm
+FROM debian:bookworm
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y vsftpd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+COPY /tools/script.sh ./script.sh
+RUN chmod +x script.sh
 
-COPY conf/proftpd.conf /etc/proftpd/proftpd.conf
+CMD ["./script.sh"]

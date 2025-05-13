@@ -1,7 +1,7 @@
 FROM debian:bookworm
 
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y nginx openssl iputils-ping curl && \
+    apt-get install -y nginx openssl iputils-ping && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

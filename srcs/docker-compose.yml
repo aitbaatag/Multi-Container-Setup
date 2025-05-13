@@ -55,6 +55,19 @@ services:
       - inception
     env_file:
       - .env
+  ftp:
+    build: ./requirements/bonus/ftp/.
+    container_name: ftp
+    restart: always
+    ports:
+      - "21:21"
+      - "20:20"
+    networks:
+      - inception
+    env_file:
+      - .env
+    volumes:
+      - wordpress-data:/var/www/html
 volumes:
   wordpress-data:
   mariadb-data:

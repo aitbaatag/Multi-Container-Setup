@@ -14,3 +14,7 @@ docker logs nginx | tail -n 50
 echo ""
 echo "=== redis Logs ==="
 docker logs redis | tail -n 50
+
+echo ""
+echo "=== ftp Logs ==="
+docker logs ftp | tail -n 50
