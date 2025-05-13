@@ -7,4 +7,5 @@ RUN apt-get update && apt-get upgrade -y && \
 COPY /tools/script.sh ./script.sh
 RUN chmod +x script.sh
 
+EXPOSE 21
 CMD ["./script.sh"]

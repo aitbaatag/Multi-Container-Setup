@@ -47,6 +47,7 @@ services:
 # Bonus Part
   redis:
     build: ./requirements/bonus/redis/.
+    image: redis-imag
     container_name: redis
     restart: always
     ports:
@@ -56,12 +57,14 @@ services:
     env_file:
       - .env
   ftp:
+    depends_on:
+      - wordpress
     build: ./requirements/bonus/ftp/.
+    image: ftp-imag
     container_name: ftp
     restart: always
     ports:
       - "21:21"
-      - "20:20"
     networks:
       - inception
     env_file:

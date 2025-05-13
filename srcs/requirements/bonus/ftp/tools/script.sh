@@ -1,9 +1,8 @@
 #!/bin/bash
 set -e
 
-sed -i 's|listen=NO|listen=YES|' /etc/vsftpd.conf
-sed -i 's|#write_enable=NO|write_enable=YES|' /etc/vsftpd.conf
-sed -i 's|#local_root=.*|local_root=/var/www/html|' /etc/vsftpd.conf
+echo local_root=/var/www/html >>/etc/vsftpd.conf # client will see this path when connecting
+echo write_enable=YES >>/etc/vsftpd.conf         # allow write access (upload files)
 
 if ! id "$FTP_USER" &>/dev/null; then
   useradd -m "$FTP_USER"
@@ -12,7 +11,8 @@ if ! id "$FTP_USER" &>/dev/null; then
 fi
 # permissions
 chown -R "$FTP_USER:$FTP_USER" /var/www/html
-echo "Created FTP user $FTP_USER with access to $FTP_ROOT"
+chmod -R 755 /var/www/html
+echo "Permissions set for $FTP_USER on /var/www/html"
 
 mkdir -p "$FTP_ROOT"
 echo "Starting vsftpd server..."
