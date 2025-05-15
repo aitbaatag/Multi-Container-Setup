@@ -72,10 +72,35 @@ services:
       - .env
     volumes:
       - wordpress-data:/var/www/html
+  adminer:
+    build: ./requirements/bonus/adminer/.
+    image: adminer-imag
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    env_file:
+      - .env
+
+
+  portainer:
+    build: ./requirements/bonus/portainer/.
+    container_name: portainer
+    restart: always
+    ports:
+      - "9443:9443"
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - inception
+
 volumes:
   wordpress-data:
   mariadb-data:
-
+  portainer_data:
 networks:
   inception:
     name: inception
