@@ -1,21 +1,22 @@
-all : up
 
-up : 
-	@docker-compose -f ./srcs/docker-compose.yml up -d
+all: up
 
-down : 
-	@docker-compose -f ./srcs/docker-compose.yml down
+up: 
+	@docker compose -f ./srcs/docker-compose.yml up -d
 
-stop : 
-	@docker-compose -f ./srcs/docker-compose.yml stop
+down: 
+	@docker compose -f ./srcs/docker-compose.yml down
 
-start :
-	@docker-compose -f ./srcs/docker-compose.yml start
+stop: 
+	@docker compose -f ./srcs/docker-compose.yml stop
 
-status : 
+start: 
+	@docker compose -f ./srcs/docker-compose.yml start
+
+status: 
 	@docker ps
 
-re :
-	@docker-compose -f ./srcs/docker-compose.yml down
-	@docker-compose -f ./srcs/docker-compose.yml build --no-cache
-	@docker-compose -f ./srcs/docker-compose.yml up -d
+re: 
+	@docker compose -f ./srcs/docker-compose.yml down
+	@docker compose -f ./srcs/docker-compose.yml build --no-cache
+	@docker compose -f ./srcs/docker-compose.yfrml up -d

@@ -87,6 +87,7 @@ services:
 
   portainer:
     build: ./requirements/bonus/portainer/.
+    image: portainer-imag
     container_name: portainer
     restart: always
     ports:
