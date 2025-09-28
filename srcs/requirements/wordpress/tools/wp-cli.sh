@@ -25,7 +25,7 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
   done
   echo "✅ MariaDB is ready!"
 
-  # Create the WordPress configuration file
+  # Create the WordPress database configuration file
   wp config create \
     --allow-root \
     --dbname="${WORDPRESS_DB_NAME}" \

@@ -1,23 +1,24 @@
+
 FROM debian:bookworm
 
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install Portainer
+# Create data directory
 RUN mkdir -p /var/lib/portainer
 
-# Latest version 2.30.0 as per Portainer documentation
-ENV PORTAINER_VERSION=2.30.0
-RUN wget https://github.com/portainer/portainer/releases/download/${PORTAINER_VERSION}/portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz \
-    && tar -xzf portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz -C /usr/local \
-    && rm portainer-${PORTAINER_VERSION}-linux-amd64.tar.gz
+# Download and extract Portainer binary
+RUN wget -O /usr/local/portainer/portainer-2.33.1-linux-amd64.tar.gz \
+    https://github.com/portainer/portainer/releases/download/2.33.1/portainer-2.33.1-linux-amd64.tar.gz \
+    && tar -xzf /usr/local/portainer/portainer-2.33.1-linux-amd64.tar.gz -C /usr/local/portainer/ \
+    && rm /usr/local/portainer/portainer-2.33.1-linux-amd64.tar.gz \
+    && chmod +x /usr/local/portainer/portainer
 
-WORKDIR /usr/local/portainer
-
-# Expose the Portainer web interface port
+# Expose Portainer web interface port
 EXPOSE 9000
 
-# Start Portainer with the data directory and force Docker socket connection
+# Run Portainer
 CMD ["/usr/local/portainer/portainer", "--data", "/var/lib/portainer"]
