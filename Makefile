@@ -19,4 +19,8 @@ status:
 re: 
 	@docker compose -f ./srcs/docker-compose.yml down
 	@docker compose -f ./srcs/docker-compose.yml build --no-cache
-	@docker compose -f ./srcs/docker-compose.yfrml up -d
+	@docker compose -f ./srcs/docker-compose.yml up 
+
+clean volume:
+	@docker compose -f ./srcs/docker-compose.yml down --volumes
+

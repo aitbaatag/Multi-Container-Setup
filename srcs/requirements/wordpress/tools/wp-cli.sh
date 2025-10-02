@@ -1,31 +1,22 @@
 #!/bin/sh
-set -e
 
-# Create the WordPress directory if it doesn't exist
-if [ ! -d "/var/www/html" ]; then
-  mkdir -p /var/www/html
-fi
-
-# Set proper ownership
-chown -R www-data:www-data /var/www/html
 # Change to the WordPress directory
 cd /var/www/html
 
 # Check if WordPress is already installed
 if [ ! -f "/var/www/html/wp-config.php" ]; then
   echo "WordPress not found, downloading..."
-  # Download WordPress core files
+  # Download WordPress
   wp core download --allow-root
 
-  # Wait for MariaDB to be fully ready
+  # # Wait for MariaDB to be fully ready
+  # until mysql -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" -e "SELECT 1;" >/dev/null 2>&1; do
+  #   echo "⏳ Waiting for MariaDB to be ready..."
+  #   sleep 2
+  # done
+  # echo "✅ MariaDB is ready!"
 
-  until mysql -h"${WORDPRESS_DB_HOST}" -u"${WORDPRESS_DB_USER}" -p"${WORDPRESS_DB_PASSWORD}" -e "SELECT 1;" >/dev/null 2>&1; do
-    echo "⏳ Waiting for MariaDB to be ready..."
-    sleep 2
-  done
-  echo "✅ MariaDB is ready!"
-
-  # Create the WordPress database configuration file
+  # generate a config file (wp-config.php) and set up the database
   wp config create \
     --allow-root \
     --dbname="${WORDPRESS_DB_NAME}" \
@@ -50,6 +41,8 @@ fi
 
 # Install and configure required plugin if not already installed
 if [ ! -d "/var/www/html/wp-content/plugins/redis-cache" ]; then
+  echo "removing default plugins..."
+  wp plugin delete --all
   echo "Installing Redis Cache plugin..."
   wp plugin install redis-cache --activate --allow-root
 
