@@ -7,6 +7,7 @@ services:
     restart: always
     depends_on:
       - wordpress
+      - portainer
     ports:
       - "443:443"
     volumes:
@@ -33,6 +34,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+
   wordpress:
     depends_on:
       mariadb:
@@ -98,14 +100,35 @@ services:
     ports:
       - "9443:9443"
     volumes:
+      - portainer_data:/var/lib/portainer 
       - /var/run/docker.sock:/var/run/docker.sock
+    environment: 
+      - PORTAINER_SESSION_TIMEOUT=0
     networks:
       - inception
 
 volumes:
   wordpress-data:
+    driver: local
+    name: wordpress-data
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/kaiji/data/wordpress-data
   mariadb-data:
+    driver: local
+    name: mariadb-data
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/kaiji/data/mariadb-data
   portainer_data:
+    driver: local
+    name: portainer_data
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/kaiji/data/portainer_data
 networks:
   inception:
     name: inception
