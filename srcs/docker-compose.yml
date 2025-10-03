@@ -1,0 +1,111 @@
+
+services:
+  nginx:
+    image: nginx-imag
+    container_name: nginx
+    build: ./requirements/nginx/.
+    restart: always
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-data:/var/www/html
+      - ./requirements/static-site:/var/www/static-site
+    networks:
+      - inception
+
+  mariadb:
+    image: mariadb-imag
+    container_name: mariadb
+    build: ./requirements/mariadb/.
+    restart: always
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - inception
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  wordpress:
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    image: wordpress-php-imag
+    container_name: wordpress
+    build: ./requirements/wordpress/.
+    restart: always
+    ports:
+      - "9000:9000"
+    env_file:
+      - .env
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - inception
+
+# Bonus Part
+  redis:
+    build: ./requirements/bonus/redis/.
+    image: redis-imag
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - inception
+    env_file:
+      - .env
+  ftp:
+    depends_on:
+      - wordpress
+    build: ./requirements/bonus/ftp/.
+    image: ftp-imag
+    container_name: ftp
+    restart: always
+    ports:
+      - "21:21"
+    networks:
+      - inception
+    env_file:
+      - .env
+    volumes:
+      - wordpress-data:/var/www/html
+  adminer:
+    build: ./requirements/bonus/adminer/.
+    image: adminer-imag
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+    env_file:
+      - .env
+
+
+  portainer:
+    build: ./requirements/bonus/portainer/.
+    image: portainer-imag
+    container_name: portainer
+    restart: always
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - inception
+
+volumes:
+  wordpress-data:
+  mariadb-data:
+  portainer_data:
+networks:
+  inception:
+    name: inception
