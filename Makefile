@@ -16,10 +16,9 @@ start:
 status: 
 	@docker ps
 
-re: 
-	@docker compose -f ./srcs/docker-compose.yml down
-	@docker compose -f ./srcs/docker-compose.yml build --no-cache
-	@docker compose -f ./srcs/docker-compose.yml up 
+re:
+	@docker compose -f ./srcs/docker-compose.yml down -v --rmi all
+	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
 clean volume:
 	@docker compose -f ./srcs/docker-compose.yml down --volumes
