@@ -7,7 +7,6 @@ services:
     restart: always
     depends_on:
       - wordpress
-      - portainer
     ports:
       - "443:443"
     volumes:
@@ -79,28 +78,30 @@ services:
       - .env
     volumes:
       - wordpress-data:/var/www/html
+
   adminer:
     build: ./requirements/bonus/adminer/.
     image: adminer-imag
     container_name: adminer
     restart: always
     ports:
-      - "8080:8080"
+      - "3000:3000"
     networks:
       - inception
     env_file:
       - .env
 
-  portainer:
-    build: ./requirements/bonus/portainer/.
-    image: portainer-imag
-    container_name: portainer
-    restart: always
+  cadvisor:
+    image: my_cadvisor
+    container_name: cadvisor
+    build: ./requirements/bonus/cadvisor
     volumes:
-      - portainer_data:/var/lib/portainer 
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock
-    environment: 
-      - PORTAINER_SESSION_TIMEOUT=0
+    ports:
+      - "8080:8080"
     networks:
       - inception
 
@@ -119,13 +120,6 @@ volumes:
       o: bind
       type: none
       device: /home/kaiji/data/mariadb-data
-  portainer_data:
-    driver: local
-    name: portainer_data
-    driver_opts:
-      o: bind
-      type: none
-      device: /home/kaiji/data/portainer_data
 networks:
   inception:
     name: inception

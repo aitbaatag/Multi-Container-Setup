@@ -9,4 +9,4 @@ RUN apt-get update && apt-get upgrade -y && \
 
 EXPOSE 8080
 
-CMD ["php", "-S", "0.0.0.0:8080", "-t", "/usr/share/adminer"]
+CMD ["php", "-S", "0.0.0.0:3000", "-t", "/usr/share/adminer"]

@@ -18,7 +18,9 @@ status:
 
 re:
 	@docker compose -f ./srcs/docker-compose.yml down -v --rmi all
-	@docker compose -f ./srcs/docker-compose.yml up -d --build
+	@docker compose -f ./srcs/docker-compose.yml build --no-cache
+	@docker compose -f ./srcs/docker-compose.yml up 
+
 
 clean volume:
 	@docker compose -f ./srcs/docker-compose.yml down --volumes
