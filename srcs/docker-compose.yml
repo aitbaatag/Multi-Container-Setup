@@ -11,7 +11,6 @@ services:
       - "443:443"
     volumes:
       - wordpress-data:/var/www/html
-      - ./requirements/static-site:/var/www/static-site
     networks:
       - inception
 
@@ -94,7 +93,7 @@ services:
   cadvisor:
     image: my_cadvisor
     container_name: cadvisor
-    build: ./requirements/bonus/cadvisor
+    build: ./requirements/bonus/cadvisor/.
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
@@ -105,6 +104,15 @@ services:
     networks:
       - inception
 
+  site:
+    build: ./requirements/bonus/site/.
+    image: site-imag
+    container_name: site
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - inception
 volumes:
   wordpress-data:
     driver: local
