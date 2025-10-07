@@ -120,14 +120,14 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/kaiji/data/wordpress-data
+      device: /home/kait-baa/data/wordpress-data
   mariadb-data:
     driver: local
     name: mariadb-data
     driver_opts:
       o: bind
       type: none
-      device: /home/kaiji/data/mariadb-data
+      device: /home/kait-baa/data/mariadb-data
 networks:
   inception:
     name: inception
