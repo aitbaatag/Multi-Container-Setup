@@ -1,7 +1,7 @@
 
 services:
   nginx:
-    image: nginx-imag
+    image: nginx:imag
     container_name: nginx
     build: ./requirements/nginx/.
     restart: always
@@ -15,7 +15,7 @@ services:
       - inception
 
   mariadb:
-    image: mariadb-imag
+    image: mariadb:imag
     container_name: mariadb
     build: ./requirements/mariadb/.
     restart: always
@@ -37,7 +37,7 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
-    image: wordpress-php-imag
+    image: wordpress:imag
     container_name: wordpress
     build: ./requirements/wordpress/.
     restart: always
@@ -53,7 +53,7 @@ services:
 # Bonus Part
   redis:
     build: ./requirements/bonus/redis/.
-    image: redis-imag
+    image: redis:imag
     container_name: redis
     restart: always
     ports:
@@ -66,7 +66,7 @@ services:
     depends_on:
       - wordpress
     build: ./requirements/bonus/ftp/.
-    image: ftp-imag
+    image: ftp:imag
     container_name: ftp
     restart: always
     ports:
@@ -80,7 +80,7 @@ services:
 
   adminer:
     build: ./requirements/bonus/adminer/.
-    image: adminer-imag
+    image: adminer:imag
     container_name: adminer
     restart: always
     networks:
@@ -89,7 +89,7 @@ services:
       - .env
 
   cadvisor:
-    image: my_cadvisor
+    image: cadvisor:imag
     container_name: cadvisor
     build: ./requirements/bonus/cadvisor/.
     volumes:
@@ -104,7 +104,7 @@ services:
 
   site:
     build: ./requirements/bonus/site/.
-    image: site-imag
+    image: site:imag
     container_name: site
     restart: always
     ports:

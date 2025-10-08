@@ -13,7 +13,7 @@ RUN openssl req -x509 -nodes -days 365 \
     -subj "/C=MA/ST=BEG/L=1337/O=42/CN=kait-baa.42.fr"
 
 
-COPY /conf/nginx.conf /etc/nginx/nginx.conf
+COPY /conf/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]

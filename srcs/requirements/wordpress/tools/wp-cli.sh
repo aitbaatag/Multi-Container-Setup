@@ -27,6 +27,13 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
     --admin_email="${WORDPRESS_ADMIN_EMAIL}"
 
+
+
+  echo "Creating additional user..."
+  wp user create "${WORDPRESS_USER}" "${WORDPRESS_USER_EMAIL}" \
+    --user_pass="${WORDPRESS_USER_PASSWORD}" \
+    --allow-root
+
   echo "✅ WordPress installation completed!"
 else
   echo "WordPress already installed, skipping setup"
