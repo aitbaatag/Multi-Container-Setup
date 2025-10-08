@@ -83,8 +83,6 @@ services:
     image: adminer-imag
     container_name: adminer
     restart: always
-    ports:
-      - "3000:3000"
     networks:
       - inception
     env_file:

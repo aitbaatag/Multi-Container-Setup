@@ -1,3 +1,4 @@
+
 FROM debian:bookworm
 
 RUN apt-get update && apt-get upgrade -y && \
@@ -7,6 +8,6 @@ RUN apt-get update && apt-get upgrade -y && \
     php-mysql && \
     rm -rf /var/lib/apt/lists/*
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD ["php", "-S", "0.0.0.0:3000", "-t", "/usr/share/adminer"]
+CMD ["php", "-S", "0.0.0.0:3000", "-t", "/usr/share/adminer/"]
