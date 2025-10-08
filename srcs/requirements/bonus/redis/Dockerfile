@@ -7,4 +7,4 @@ RUN apt-get update && apt-get upgrade -y && \
 COPY conf/redis.conf /etc/redis/redis.conf
 
 EXPOSE 6379
-CMD ["redis-server", "/etc/redis/redis.conf"]
+CMD ["redis-server", "/etc/redis/redis.conf"] 
