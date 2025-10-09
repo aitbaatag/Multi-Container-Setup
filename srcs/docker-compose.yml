@@ -27,16 +27,10 @@ services:
       - mariadb-data:/var/lib/mysql
     networks:
       - inception
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
 
   wordpress:
     depends_on:
-      mariadb:
-        condition: service_healthy
+      - mariadb
     image: wordpress:imag
     container_name: wordpress
     build: ./requirements/wordpress/.

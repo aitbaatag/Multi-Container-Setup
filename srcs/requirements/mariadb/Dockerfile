@@ -12,10 +12,10 @@ RUN chmod +x ./init-db.sh
 
 RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld  # create the directory for the socket
 
-COPY tools/entrypoint.sh ./entrypoint.sh
+COPY tools/start.sh ./start.sh
 
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./start.sh
 
 EXPOSE 3306
 
-CMD ["./entrypoint.sh"]
+CMD ["./start.sh"]

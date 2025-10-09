@@ -5,7 +5,7 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y \
     wget \
     php \
-    php-fpm \
+    php8.2-fpm \
     php-mysql \
     iputils-ping \
     redis-tools \
@@ -21,10 +21,6 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 # Stores PHP-FPM’s PID 
 RUN mkdir -p /run/php
-
-# Create a directory for WordPress
-RUN mkdir -p /var/www/html
-RUN chown -R www-data:www-data /var/www/html
 
 # Configure PHP-FPM
 COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf

@@ -1,13 +1,28 @@
 #!/bin/sh
 
-# Change to the WordPress directory
+
+# Create a directory for WordPress
+mkdir -p /var/www/html
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
 cd /var/www/html
+
 
 # Check if WordPress is already installed
 if [ ! -f "/var/www/html/wp-config.php" ]; then
   echo "WordPress not found, downloading..."
   # Download WordPress
   wp core download --allow-root
+
+
+
+  # Wait for MariaDB to be ready
+  echo "Waiting for MariaDB to be ready..."
+  until mysql -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" -hmariadb -P3306 "$DB_NAME" -e "SELECT 1" 2>/dev/null; do
+    echo "Waiting for MariaDB..."
+    sleep 1
+  done
+  echo "MariaDB is ready!"
 
   # generate a config file (wp-config.php) and set up the database
   wp config create \
@@ -35,8 +50,14 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     --allow-root
 
   echo "✅ WordPress installation completed!"
+
+  chown -R www-data:www-data /var/www/html
+  chmod -R 775 /var/www/html
 else
   echo "WordPress already installed, skipping setup"
+
+  chown -R www-data:www-data /var/www/html
+  chmod -R 775 /var/www/html
 fi
 
 # Install and configure required plugin if not already installed
