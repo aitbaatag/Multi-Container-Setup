@@ -90,7 +90,7 @@ services:
       - /:/rootfs:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock 
     ports:
       - "8080:8080"
     networks:
@@ -123,3 +123,4 @@ volumes:
 networks:
   inception:
     name: inception
+    driver: bridge
