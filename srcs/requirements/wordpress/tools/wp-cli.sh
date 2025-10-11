@@ -78,7 +78,12 @@ else
   echo "Redis Cache plugin already installed, skipping installation"
 fi
 
+
+
+# Configure php-fpm to listen on port 9000
+sed -i 's/listen = .*/listen = 9000/' /etc/php/8.2/fpm/pool.d/www.conf
+
 # Start PHP-FPM
 echo "Starting PHP-FPM..."
 
-exec php-fpm8.2 -F -R
+exec php-fpm8.2 -F

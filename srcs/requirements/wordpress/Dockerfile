@@ -7,7 +7,6 @@ RUN apt-get update && apt-get upgrade -y && \
     php \
     php8.2-fpm \
     php-mysql \
-    iputils-ping \
     redis-tools \
     vsftpd \
     mariadb-client && \
@@ -22,8 +21,6 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 # Stores PHP-FPM’s PID 
 RUN mkdir -p /run/php
 
-# Configure PHP-FPM
-COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 COPY /tools/wp-cli.sh ./wp-cli.sh
 RUN chmod +x ./wp-cli.sh
 

@@ -25,7 +25,7 @@ start:
 status: 
 	@docker ps
 
-re:
+re: setup
 	docker compose -f ./srcs/docker-compose.yml down -v --rmi all
 	docker compose -f ./srcs/docker-compose.yml up  --build -d
 
