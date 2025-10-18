@@ -166,3 +166,211 @@ Now that you understand the real utility of Docker, it’s time to understand a 
 With Compose, we can create a YAML file to define the services and, with a single command, bring everything up or tear everything down
 
 💡 **Compose** therefore allows you to manage applications that use multiple containers and enable them to communicate with each other
+
+# Docker Deep Dive: Images, Layers, Volumes, and Networks
+
+> A comprehensive guide to understanding Docker's internal architecture, including images, layers, storage mechanisms, and networking.
+
+---
+
+## Table of Contents
+
+- [Docker Images](#1-docker-images)
+- [Image Layers](#2-image-layers)
+- [How Docker Builds](#3-how-docker-builds)
+- [Container Runtime Layer](#4-container-runtime-layer)
+- [Docker Volumes and Filesystems](#5-docker-volumes-and-filesystems)
+- [Docker Networks](#6-docker-networks)
+- [Summary](#7-summary)
+
+---
+
+## 1. Docker Images
+
+A **Docker image** is a **read-only template** containing everything needed to run an application:
+
+- Base OS filesystem (e.g., Ubuntu)
+- Installed packages
+- Application code
+- Configuration and metadata
+
+When you run an image, Docker adds a **writable container layer** on top of the image.
+
+### Example Dockerfile
+
+```dockerfile
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y python3
+COPY app.py /app/app.py
+CMD ["python3", "/app/app.py"]
+```
+
+---
+
+## 2. Image Layers
+
+Each instruction in a Dockerfile creates a **layer**.
+
+- Layers are **read-only** and stored as tarballs in `/var/lib/docker/overlay2/`
+- Docker uses **copy-on-write**: changes in a container only affect the top writable layer
+
+### Layers in the Example Dockerfile
+
+| Layer | Instruction | Description |
+|-------|-------------|-------------|
+| 1 | `FROM ubuntu:22.04` | Base OS |
+| 2 | `RUN apt-get ...` | Installed Python packages |
+| 3 | `COPY app.py /app` | Added application code |
+| 4 | `CMD [...]` | Metadata, no filesystem changes |
+
+---
+
+## 3. How Docker Builds
+
+Docker builds images by following these steps:
+
+1. Reads the Dockerfile line by line
+2. Executes each instruction in a temporary container
+3. Captures filesystem changes → creates a new layer
+4. Uses cache if the same instruction exists in previous builds
+
+---
+
+## 4. Container Runtime Layer
+
+When you run a container:
+
+- Docker stacks image layers (read-only) and adds a **writable top layer**
+- Writes, modifications, and deletes go only to the top layer
+- If a container is removed, the writable layer is destroyed; image layers remain intact
+
+**OverlayFS** union filesystem is used to combine layers:
+
+```
+overlay/
+ ├─ lowerdir → image layers
+ ├─ upperdir → container writable layer
+ └─ merged   → view seen by container
+```
+
+---
+
+## 5. Docker Volumes and Filesystems
+
+Docker allows multiple ways to store container data:
+
+| Type | Storage Location | Persistent? | Use Case |
+|------|------------------|-------------|----------|
+| **bind** | Host folder (ext4, XFS, NTFS) | ✅ Yes | Development, custom data |
+| **volume** | Docker-managed folder (`/var/lib/docker/volumes`) | ✅ Yes | Databases, production storage |
+| **tmpfs** | In-memory filesystem (RAM) | ❌ No | Caches, temporary data |
+| **NFS** | Remote server via network | ✅ Yes | Shared data across hosts |
+
+### Bind Mount Example
+
+```yaml
+volumes:
+  - type: bind
+    source: ./data
+    target: /app/data
+```
+
+- Mounts host folder `./data` into container at `/app/data`
+- Container sees the host filesystem (ext4, XFS, NTFS)
+
+### Advanced Bind Mount (none + o: bind)
+
+```yaml
+volumes:
+  - type: none
+    source: ./data
+    target: /app/data
+    o: bind,ro
+```
+
+- Low-level bind mount
+- `ro` makes it read-only
+- Useful for advanced mount options
+
+### Tmpfs Example
+
+```yaml
+volumes:
+  - type: tmpfs
+    target: /app/tmp
+```
+
+- Creates an in-memory filesystem
+- Very fast, disappears when container stops
+
+### NFS Example
+
+```yaml
+volumes:
+  - type: volume
+    source: nfs-data
+    target: /app/data
+    volume:
+      driver_opts:
+        type: "nfs"
+        o: "addr=192.168.1.100,rw"
+        device: ":/exported/path"
+```
+
+---
+
+## 6. Docker Networks
+
+A **Docker network** is a virtual network layer connecting containers and optionally the outside world.
+
+### Network Types
+
+| Type | Description | Use Case |
+|------|-------------|----------|
+| **bridge** | Default network on single host | Container-to-container communication |
+| **host** | Shares host network | High-performance apps |
+| **none** | No networking | Isolated container |
+| **overlay** | Multi-host networks (Swarm) | Distributed apps |
+| **macvlan** | Assigns container its own MAC/IP | Integrating into LAN |
+| **ipvlan** | Efficient MAC/IP for containers | Performance-sensitive |
+
+### Bridge Network Example (Docker Compose)
+
+```yaml
+version: '3.9'
+services:
+  app:
+    image: nginx
+    networks:
+      - mybridge
+  db:
+    image: postgres
+    networks:
+      - mybridge
+
+networks:
+  mybridge:
+    driver: bridge
+```
+
+- Containers on the same bridge can communicate using container names
+- Default bridge (`docker0`) only allows IP communication
+
+---
+
+## 7. Summary
+
+- **Docker Image** = read-only template
+- **Layer** = incremental snapshot of filesystem
+- **Container layer** = writable copy-on-write layer
+- **Volumes** = persistent storage (bind, volume, tmpfs, NFS)
+- **Networks** = virtual network layers for container communication (bridge, overlay, host, macvlan)
+
+This README provides a low-level understanding of Docker internals, ideal for developers and DevOps engineers.
+
+---
+
+## License
+
+This documentation is provided for educational purposes 
+ 
